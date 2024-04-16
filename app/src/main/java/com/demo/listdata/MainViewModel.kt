@@ -21,9 +21,10 @@ class MainViewModel constructor(private val mainRepository: MainRepository) : Vi
     }
     val loading = MutableLiveData<Boolean>()
 
-    fun getList() {
+    fun getList(page: Int,limit: Int) {
+        loading.value = true
         viewModelScope.launch {
-            when (val response = mainRepository.getList()) {
+            when (val response = mainRepository.getList(page, limit)) {
                 is NetworkState.Success -> {
                     loading.value = false
                     list.postValue(response.data)

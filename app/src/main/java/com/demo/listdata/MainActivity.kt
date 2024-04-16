@@ -42,12 +42,16 @@ class MainActivity : AppCompatActivity() {
         }
         viewModel.loading.observe(this) {
             if (it) {
-                binding.progressCircular.visibility = View.VISIBLE
+                if (currentPage == 1) {
+                    binding.progressCircular.visibility = View.VISIBLE
+                } else
+                    binding.progressCircularBottom.visibility = View.VISIBLE
             } else {
                 binding.progressCircular.visibility = View.GONE
+                binding.progressCircularBottom.visibility = View.GONE
             }
         }
-        viewModel.getList()
+        viewModel.getList(currentPage, PAGE_SIZE)
 
         listAdapter.onItemClick = {
             val item = viewModel.list.value
@@ -67,7 +71,8 @@ class MainActivity : AppCompatActivity() {
                 if (!isLoading && !isLastPage) {
                     if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
                         && firstVisibleItemPosition >= 0
-                        && totalItemCount >= PAGE_SIZE) {
+                        && totalItemCount >= PAGE_SIZE
+                    ) {
                         loadMoreItems()
                     }
                 }
@@ -75,20 +80,18 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
     private fun loadMoreItems() {
         isLoading = true
         currentPage++
+        viewModel.getList(currentPage, PAGE_SIZE)
         Handler(Looper.myLooper()!!).postDelayed({
             isLoading = false
-            if (currentPage == TOTAL_PAGES) {
-                isLastPage = true
-            }
-        }, 1000) //Simulated loading delay
+        }, 500) // Simulated loading delay
     }
 
     companion object {
         private const val PAGE_SIZE = 10 // Number of items to load per page
-        private const val TOTAL_PAGES = 10 // Total number of pages
     }
 
 }
