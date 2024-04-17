@@ -33,9 +33,9 @@ class MainViewModel constructor(private val mainRepository: MainRepository) : Vi
                 is NetworkState.Error -> {
                     loading.value = false
                     if (response.response.code() == 401) {
-                        //movieList.postValue(NetworkState.Error())
+                        //list.postValue(NetworkState.Error())
                     } else {
-                        //movieList.postValue(NetworkState.Error)
+                        //list.postValue(NetworkState.Error)
                     }
                 }
             }

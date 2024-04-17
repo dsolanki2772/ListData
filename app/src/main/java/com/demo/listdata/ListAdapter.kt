@@ -34,7 +34,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
             binding.tvName.text = items[position].title
             binding.tvSource.text = items[position].body
             itemView.setOnClickListener {
-                onItemClick?.invoke(position)
+                onItemClick?.invoke(items[position])
             }
         }
     }
@@ -44,5 +44,5 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    var onItemClick: ((Int) -> Unit)? = null
+    var onItemClick: ((Item) -> Unit)? = null
 }

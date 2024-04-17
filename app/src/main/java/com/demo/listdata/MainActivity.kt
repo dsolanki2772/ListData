@@ -54,10 +54,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.getList(currentPage, PAGE_SIZE)
 
         listAdapter.onItemClick = {
-            val item = viewModel.list.value
-            val itemData = item?.get(it)
             val intent = Intent(this, DetailsActivity::class.java)
-            intent.putExtra("details", Gson().toJson(itemData))
+            intent.putExtra("details", Gson().toJson(it))
             startActivity(intent)
         }
 
@@ -87,15 +85,11 @@ class MainActivity : AppCompatActivity() {
         viewModel.getList(currentPage, PAGE_SIZE)
         Handler(Looper.myLooper()!!).postDelayed({
             isLoading = false
-            if(currentPage== TOTAL_PAGE){
-                isLastPage=true
-            }
         }, 500) // Simulated loading delay
     }
 
     companion object {
         private const val PAGE_SIZE = 10 // Number of items to load per page
-        private const val TOTAL_PAGE = 10 // Number of items to load per page
     }
 
 }
